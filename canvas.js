@@ -26,15 +26,15 @@ const c = canvas.getContext('2d')
 // c.strokeStyle = 'magenta'
 // c.stroke()
 
-// const characters = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F']
-// const generateCode = () => {
-//     let hexArray = []
+const characters = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F']
+const generateCode = () => {
+    let hexArray = []
     
-//     for (let i = 0; i < 6; i++) {
-//       hexArray.push(characters[Math.floor(Math.random() * characters.length)])
-//     }
-//     return `#${hexArray.join('')}`
-// }
+    for (let i = 0; i < 6; i++) {
+      hexArray.push(characters[Math.floor(Math.random() * characters.length)])
+    }
+    return `#${hexArray.join('')}`
+}
 
 // for (let i = 0; i < 60; i++) {
 //     const x = Math.random() * window.innerWidth
@@ -47,28 +47,72 @@ const c = canvas.getContext('2d')
 
 
 //Animation
-let x = Math.random() * innerWidth
-let y = Math.random() * innerHeight
-let dx = (Math.random() * -.5) * 7
-let dy = (Math.random() * -.5) * 7
-const radius = 30
+function Circle(x, y, dx, dy, radius) {
+    this.x = x
+    this.y = y
+    this.dx = dx
+    this.dy = dy
+    this.radius = radius
+    this.color = generateCode()
+    this.draw = function() {
+        c.beginPath()
+        c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false)
+        c.strokeStyle = this.color
+        c.stroke()
+    }
+    this.update = function() {
+    if (this.x + this.radius + 8 > innerWidth || this.x < this.radius) {
+        this.dx = -this.dx
+    }
+    if (this.y + this.radius > innerHeight || this.y < this.radius) {
+        this.dy = -this.dy
+    }
+    this.x += this.dx
+    this.y += this.dy
+
+    this.draw()
+    
+    }
+}
+
+let circleArray = []
+for (let i = 0; i < 100; i++) {
+    const radius = 30
+    const x = Math.random() * (innerWidth - radius * 2) + radius
+    const y = Math.random() * (innerHeight - radius * 2) + radius
+    const dx = (Math.random() * -.5) * 7
+    const dy = (Math.random() * -.5) * 7
+    circleArray.push(new Circle(x, y, dx, dy, radius))
+}
+
+
+
+// let x = Math.random() * innerWidth
+// let y = Math.random() * innerHeight
+// let dx = (Math.random() * -.5) * 7
+// let dy = (Math.random() * -.5) * 7
+// const radius = 30
 
 const animate = () => {
     requestAnimationFrame(animate)
     c.clearRect(0, 0, innerWidth, innerHeight)
     c.beginPath()
-    c.arc(x, y, radius, 0, Math.PI * 2, false)
-    c.strokeStyle = 'magenta'
-    c.stroke()
 
-    if (x + radius + 8 > innerWidth || x < radius) {
-        dx = -dx
+    for (let i = 0; i < circleArray.length; i++) {
+        circleArray[i].update()
     }
-    if (y + radius > innerHeight || y < radius) {
-        dy = -dy
-    }
-    x += dx
-    y += dy
+    // c.arc(x, y, radius, 0, Math.PI * 2, false)
+    // c.strokeStyle = 'magenta'
+    // c.stroke()
+
+    // if (x + radius + 8 > innerWidth || x < radius) {
+    //     dx = -dx
+    // }
+    // if (y + radius > innerHeight || y < radius) {
+    //     dy = -dy
+    // }
+    // x += dx
+    // y += dy
 }
 
 animate()
