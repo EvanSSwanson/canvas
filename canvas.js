@@ -75,21 +75,30 @@ function Circle(x, y, dx, dy, radius) {
 
 let circleArray = []
 for (let i = 0; i < 100; i++) {
-    circleArray.push(new Circle())
+    let x = Math.random() * innerWidth
+    let y = Math.random() * innerHeight
+    let dx = (Math.random() * -.5) * 7
+    let dy = (Math.random() * -.5) * 7
+    const radius = 30
+    circleArray.push(new Circle(x, y, dx, dy, radius))
 }
 
 
-let x = Math.random() * innerWidth
-let y = Math.random() * innerHeight
-let dx = (Math.random() * -.5) * 7
-let dy = (Math.random() * -.5) * 7
-const radius = 30
+
+// let x = Math.random() * innerWidth
+// let y = Math.random() * innerHeight
+// let dx = (Math.random() * -.5) * 7
+// let dy = (Math.random() * -.5) * 7
+// const radius = 30
 
 const animate = () => {
     requestAnimationFrame(animate)
     c.clearRect(0, 0, innerWidth, innerHeight)
-    circle.update()
     c.beginPath()
+
+    for (let i = 0; i < circleArray.length; i++) {
+        circleArray[i].update()
+    }
     // c.arc(x, y, radius, 0, Math.PI * 2, false)
     // c.strokeStyle = 'magenta'
     // c.stroke()
