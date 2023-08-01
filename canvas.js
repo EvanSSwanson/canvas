@@ -26,15 +26,15 @@ const c = canvas.getContext('2d')
 // c.strokeStyle = 'magenta'
 // c.stroke()
 
-// const characters = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F']
-// const generateCode = () => {
-//     let hexArray = []
+const characters = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F']
+const generateCode = () => {
+    let hexArray = []
     
-//     for (let i = 0; i < 6; i++) {
-//       hexArray.push(characters[Math.floor(Math.random() * characters.length)])
-//     }
-//     return `#${hexArray.join('')}`
-// }
+    for (let i = 0; i < 6; i++) {
+      hexArray.push(characters[Math.floor(Math.random() * characters.length)])
+    }
+    return `#${hexArray.join('')}`
+}
 
 // for (let i = 0; i < 60; i++) {
 //     const x = Math.random() * window.innerWidth
@@ -53,10 +53,11 @@ function Circle(x, y, dx, dy, radius) {
     this.dx = dx
     this.dy = dy
     this.radius = radius
+    this.color = generateCode()
     this.draw = function() {
         c.beginPath()
         c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false)
-        c.strokeStyle = 'magenta'
+        c.strokeStyle = this.color
         c.stroke()
     }
     this.update = function() {
@@ -70,16 +71,17 @@ function Circle(x, y, dx, dy, radius) {
     this.y += this.dy
 
     this.draw()
+    
     }
 }
 
 let circleArray = []
 for (let i = 0; i < 100; i++) {
-    let x = Math.random() * innerWidth
-    let y = Math.random() * innerHeight
-    let dx = (Math.random() * -.5) * 7
-    let dy = (Math.random() * -.5) * 7
     const radius = 30
+    const x = Math.random() * (innerWidth - radius * 2) + radius
+    const y = Math.random() * (innerHeight - radius * 2) + radius
+    const dx = (Math.random() * -.5) * 7
+    const dy = (Math.random() * -.5) * 7
     circleArray.push(new Circle(x, y, dx, dy, radius))
 }
 
