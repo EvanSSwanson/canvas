@@ -47,6 +47,38 @@ const c = canvas.getContext('2d')
 
 
 //Animation
+function Circle(x, y, dx, dy, radius) {
+    this.x = x
+    this.y = y
+    this.dx = dx
+    this.dy = dy
+    this.radius = radius
+    this.draw = function() {
+        c.beginPath()
+        c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false)
+        c.strokeStyle = 'magenta'
+        c.stroke()
+    }
+    this.update = function() {
+    if (this.x + this.radius + 8 > innerWidth || this.x < this.radius) {
+        this.dx = -this.dx
+    }
+    if (this.y + this.radius > innerHeight || this.y < this.radius) {
+        this.dy = -this.dy
+    }
+    this.x += this.dx
+    this.y += this.dy
+
+    this.draw()
+    }
+}
+
+let circleArray = []
+for (let i = 0; i < 100; i++) {
+    circleArray.push(new Circle())
+}
+
+
 let x = Math.random() * innerWidth
 let y = Math.random() * innerHeight
 let dx = (Math.random() * -.5) * 7
@@ -56,19 +88,20 @@ const radius = 30
 const animate = () => {
     requestAnimationFrame(animate)
     c.clearRect(0, 0, innerWidth, innerHeight)
+    circle.update()
     c.beginPath()
-    c.arc(x, y, radius, 0, Math.PI * 2, false)
-    c.strokeStyle = 'magenta'
-    c.stroke()
+    // c.arc(x, y, radius, 0, Math.PI * 2, false)
+    // c.strokeStyle = 'magenta'
+    // c.stroke()
 
-    if (x + radius + 8 > innerWidth || x < radius) {
-        dx = -dx
-    }
-    if (y + radius > innerHeight || y < radius) {
-        dy = -dy
-    }
-    x += dx
-    y += dy
+    // if (x + radius + 8 > innerWidth || x < radius) {
+    //     dx = -dx
+    // }
+    // if (y + radius > innerHeight || y < radius) {
+    //     dy = -dy
+    // }
+    // x += dx
+    // y += dy
 }
 
 animate()
